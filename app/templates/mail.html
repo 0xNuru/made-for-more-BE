@@ -1,0 +1,7 @@
+{% extends 'base.html' %} {% block content %}
+
+<p>Hi {{name}},</p>
+<p>{{form["form"]}} submission</p>
+{% for field, value in form.items() %} {% if field != 'form' %}
+<p><strong>{{ field }}:</strong> {{ value }}</p>
+{% endif %} {% endfor %} {% endblock %}
