@@ -1,0 +1,20 @@
+fastapi[standard]
+
+
+# data validation
+pydantic
+pydantic-settings
+
+
+# mail
+sendgrid
+
+#templating
+jinja2
+
+# ASGI server
+uvicorn==0.17.6
+uvicorn[standard]
+
+# WSGI server and process manager
+gunicorn
