@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Response, status
+from fastapi import APIRouter, Request, Response, status, HTTPException
 from jinja2 import Environment, select_autoescape, PackageLoader
 from pydantic import Json
 from sendgrid import SendGridAPIClient
@@ -16,9 +16,7 @@ jinja2_env = Environment(
 
 @router.post("/submit", status_code=status.HTTP_201_CREATED)
 async def submit_form(request: Request):
-    form_data = await request.json()  # Parse the incoming JSON data
-    print(type(form_data))
-    print(form_data)
+    form_data = await request.json()
     sg_client = SendGridAPIClient(settings.SENDGRID_API_KEY)
     template = jinja2_env.get_template("mail.html")
     html = template.render(name="Made for More", form=form_data)
@@ -32,7 +30,10 @@ async def submit_form(request: Request):
 
     try:
         response = sg_client.send(mail)
-        print("hi")
+        print(response.status_code)
     except Exception as e:
         print(f"Error sending mail: {e}")
-    return Response(content=html, media_type="text/html")
+        raise HTTPException(status_code=500, detail="Error sending mail")
+    return Response(
+        content=html, media_type="text/html", status_code=status.HTTP_201_CREATED
+    )
