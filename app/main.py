@@ -13,6 +13,7 @@ app.add_middleware(
         "http://localhost:5173",
         "https://www.madeforemore.ca",
         "https://madeforemore.ca",
+        "https://made-for-more.onrender.com",
     ],
     allow_credentials=True,
     allow_methods=["*"],
